@@ -1,0 +1,43 @@
+server:
+  port: 10086
+  servlet:
+    context-path: /chk
+spring:
+  #redis配置
+  redis:
+    host: 127.0.0.1
+    database: 0
+    port: 6379
+    #mysql配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/chk?characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: 802386
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis-plus:
+  #配置默认mapper读取路径
+  mapper-locations: classpath*:/mapper/**/*.xml
+
+
+aliyun:
+  #阿里云短信模板配置
+  sms:
+    #阿里云 accessKeyId（安全信息管理下面）
+    accessKeyId: LTAI5tDTLb3Y6cj2XbDGi5LZ
+    #阿里云 accessKeySecret（安全信息管理下面）
+    accessKeySecret: i3oX7X0IBCiC7n1HhPAzyqkEX5EUfM
+    #产品名称:云通信短信API产品,开发者无需替换
+    product: Dysmsapi
+    #产品域名,开发者无需替换
+    domain: dysmsapi.aliyuncs.com
+    regionId: cn-hangzhou
+    #短信签名名称（国内/国际/港澳台消息-签名管理下面）
+    signName: 阿里云短信测试
+    #发送日期 支持30天内记录查询，格式yyyyMMdd
+    dateFormat: yyyyMMdd
+    #服务结点
+    endpointName: cn-hangzhou
+    #模板编码
+    templateCode: SMS_154950909
+
