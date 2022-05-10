@@ -17,7 +17,11 @@ import java.io.IOException;
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        ResponseResult result = new ResponseResult(HttpStatus.FORBIDDEN.value(), "权限不足");
+        Object errorMsg = request.getAttribute("errorMsg");
+        if (errorMsg == null){
+            errorMsg = "权限不足";
+        }
+        ResponseResult result = new ResponseResult(HttpStatus.FORBIDDEN.value(),errorMsg );
         String json = JSON.toJSONString(result);
         WebUtils.renderString(response,json);
     }

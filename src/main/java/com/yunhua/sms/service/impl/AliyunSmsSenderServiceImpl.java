@@ -10,6 +10,7 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.yunhua.constant.RedisConstant;
 import com.yunhua.domain.ResponseResult;
 import com.yunhua.sms.domian.AliyunSMSConfig;
 import com.yunhua.sms.domian.Sms;
@@ -105,14 +106,12 @@ public class AliyunSmsSenderServiceImpl implements AliyunSmsSenderService {
     @Override
     public ResponseResult sms(String mobile) {
         if (!StringUtils.hasText(mobile)){
-            log.error("====================>发送短信接口参数为空");
             return new ResponseResult(102,"参数不符合规范");
         }
         //进行校验，防止用户暴力刷接口
         String smsCode;
-        smsCode = redisCache.getCacheObject("SMS:" + mobile);
+        smsCode = redisCache.getCacheObject(RedisConstant.SMS + mobile);
         if (StringUtils.hasText(smsCode)){
-            log.error("====================>短信接口繁忙，请稍后重试");
             return new ResponseResult(103,"短信接口繁忙，请稍后重试");
         }
         smsCode = CommonUtil.randomCode();
@@ -122,12 +121,11 @@ public class AliyunSmsSenderServiceImpl implements AliyunSmsSenderService {
                 JSON.toJSONString(map),
                 smsConfig.getTemplateCode());
         if (!"200".equals(sendSmsResponse.getCode())){
-            log.info("=======================>向手机号{}发送验证{}失败",mobile,smsCode);
             return new ResponseResult(101,"发送短信失败");
         }
         log.info("=======================>向手机号{}发送验证{}成功",mobile,smsCode);
         //发送短信成功向redis中缓存一份数据
-        redisCache.setCacheObject("SMS:"+ mobile,smsCode,120, TimeUnit.SECONDS);
+        redisCache.setCacheObject(RedisConstant.SMS+ mobile,smsCode,RedisConstant.SMSEXPIRE, TimeUnit.SECONDS);
 
         return new ResponseResult(200,"发送短信成功");
     }

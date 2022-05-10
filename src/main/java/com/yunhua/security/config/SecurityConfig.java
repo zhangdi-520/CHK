@@ -1,6 +1,7 @@
 package com.yunhua.security.config;
 
 import com.yunhua.security.filter.JwtAuthenticationTokenFilter;
+import com.yunhua.security.filter.SmsCodeValidateFilter;
 import com.yunhua.security.handler.AccessDeniedHandlerImpl;
 import com.yunhua.security.handler.AuthenticationEntryPointImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AccessDeniedHandlerImpl accessDeniedHandler;
 
+    @Autowired
+    private SmsCodeValidateFilter smsCodeValidateFilter;
+
     /**
      * 注入之后springsecurity默认使用这个来校验密码
      * @return
@@ -68,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //添加过滤器
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(smsCodeValidateFilter,UsernamePasswordAuthenticationFilter.class);
 
         //配置异常处理器
         http.exceptionHandling()

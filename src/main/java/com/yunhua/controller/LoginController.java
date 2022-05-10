@@ -1,7 +1,7 @@
 package com.yunhua.controller;
 
 import com.yunhua.domain.ResponseResult;
-import com.yunhua.domain.User;
+import com.yunhua.domain.requestRo.UserLoginRo;
 import com.yunhua.service.LoginService;
 import com.yunhua.sms.service.AliyunSmsSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class LoginController {
     private AliyunSmsSenderService aliyunSmsSenderService;
 
     @PostMapping("/user/login")
-    public ResponseResult login(@RequestBody User user){
+    public ResponseResult login(@RequestBody UserLoginRo user){
         return loginService.login(user);
     }
 

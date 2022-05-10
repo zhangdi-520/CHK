@@ -3,6 +3,8 @@ package com.yunhua.controller;
 //import org.springframework.security.access.annotation.Secured;
 //import org.springframework.security.access.prepost.PostAuthorize;
 
+import com.yunhua.golbalexception.exception.BusinessException;
+import com.yunhua.golbalexception.vo.ResultEnum;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,7 @@ public class Controller {
 
 
     @GetMapping("index")
-    @PreAuthorize("hasAnyAuthority('test')")
+//    @PreAuthorize("hasAnyAuthority('test')")
     public String index() {
         return "index!!!";
     }

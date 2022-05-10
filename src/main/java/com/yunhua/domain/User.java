@@ -13,12 +13,12 @@ import java.util.Date;
 /**
  * 用户表(User)实体类
  *
- * @author 三更
+ * @author
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("sys_user")
+@TableName("chk_user_info")
 public class User implements Serializable {
     private static final long serialVersionUID = -40356785423868312L;
     
@@ -28,59 +28,48 @@ public class User implements Serializable {
     @TableId
     private Long id;
     /**
-    * 用户名
-    */
-    private String userName;
-    /**
     * 昵称
     */
     private String nickName;
     /**
     * 密码
     */
-    private String password;
+    private String pwd;
     /**
-    * 账号状态（0正常 1停用）
+    * 姓名
     */
-    private String status;
+    private String name;
     /**
-    * 邮箱
+    * 身份证号码
     */
-    private String email;
+    private String cardNo;
     /**
     * 手机号
     */
-    private String phonenumber;
+    private String mobile;
     /**
-    * 用户性别（0男，1女，2未知）
+    * 性别
     */
-    private String sex;
+    private Integer sex;
     /**
-    * 头像
+    * 头像图片地址
     */
-    private String avatar;
+    private String pictureUrl;
     /**
-    * 用户类型（0管理员，1普通用户）
+    * 优惠卷主键
     */
-    private String userType;
+    private String couponsId;
     /**
-    * 创建人的用户id
+    * 启用标志位
     */
-    private Long createBy;
+    private Integer delFlag;
     /**
     * 创建时间
     */
     private Date createTime;
     /**
-    * 更新人
-    */
-    private Long updateBy;
-    /**
     * 更新时间
     */
     private Date updateTime;
-    /**
-    * 删除标志（0代表未删除，1代表已删除）
-    */
-    private Integer delFlag;
+
 }

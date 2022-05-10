@@ -6,7 +6,9 @@ import com.yunhua.utils.RedisCache;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -47,13 +49,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             Claims claims = JwtUtil.parseJWT(token);
             userId = claims.getSubject();
         } catch (Exception e) {
-            e.printStackTrace();
+            request.setAttribute("errorMsg","token非法");
             throw new RuntimeException("token非法");
         }
         //从redis中获取用户信息
         String redisKey = "login:"+userId;
         LoginUser loginUser = redisCache.getCacheObject(redisKey);
         if (Objects.isNull(loginUser)){
+            request.setAttribute("errorMsg","用户未登录");
             throw new RuntimeException("用户未登录");
         }
         //用户信息存入SecurityContextHolder，后续filter主要校验holder中的用户信息
