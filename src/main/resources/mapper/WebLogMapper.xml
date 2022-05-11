@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yunhua.mapper.WebLogMapper">
+    <!--操作日志记录-->
+    <insert id="insertWebLog" parameterType="com.yunhua.kafka.message.WebLog">
+		INSERT INTO chk_web_log
+			( description, username, start_time, spend_time, base_path, uri, url, method, ip, parameter, result)
+		VALUES
+			( #{description}, #{username}, #{startTime}, #{spendTime}, #{basePath}, #{uri}, #{url}, #{method}, #{ip}, #{parameter}, #{result})
+	</insert>
+
+</mapper>
