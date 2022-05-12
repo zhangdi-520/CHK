@@ -1,5 +1,6 @@
 package com.yunhua.kafka.message;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ import lombok.Data;
 @Data
 @TableName("chk_web_log")
 public class WebLog {
+
 
     /**
      * 操作描述

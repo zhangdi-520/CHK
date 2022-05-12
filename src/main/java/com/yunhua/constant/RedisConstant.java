@@ -38,4 +38,15 @@ public class RedisConstant {
      * jwt缓存过期时间
      */
     public static final Integer LOFININFOEXPIRE = 3600;
+
+    /**
+     * 车辆信息缓存
+     */
+    public static final String CARINFO = "CAR:INFO:";
+
+    /**
+     * 车辆信息缓存过期时间（天）
+     */
+    public static final Integer CARINFOEXPIRE = 5;
+
 }

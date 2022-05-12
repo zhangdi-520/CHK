@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
     public void insertUser(User user) {
         //插入DB
         userMapper.insertUser(user);
+        System.out.println("===========================:dajidbabdhua:"+user.toString());
         //用户数据存入缓存
         redisCache.setCacheObject(RedisConstant.USERINFO + user.getMobile(), user, RedisConstant.USERINFOEXOIRE, TimeUnit.DAYS);
     }

@@ -94,9 +94,12 @@ public class SmsCodeValidateFilter extends OncePerRequestFilter {
                 request.setAttribute("errorMsg","用户未启用");
                 throw new RuntimeException("用户未启用");
             }
+            //存在用户直接放行
+            filterChain.doFilter(requestWrapper,response);
+        }else {
+            //不属于验证码登录接口直接放行
+            filterChain.doFilter(request, response);
         }
-        //不属于验证码登录接口直接放行
-        filterChain.doFilter(request,response);
     }
 
 

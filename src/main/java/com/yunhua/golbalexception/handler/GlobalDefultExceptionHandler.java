@@ -28,6 +28,7 @@ public class GlobalDefultExceptionHandler {
             BusinessException businessException = (BusinessException)e;
             return new ResponseResult(businessException.getCode(),businessException.getMessage());
         }
+        e.printStackTrace();
         return new ResponseResult(-1,e);
     }
 }
