@@ -106,9 +106,10 @@ public class RedisCache
      * @param dataList 待缓存的List数据
      * @return 缓存的对象
      */
-    public <T> long setCacheList(final String key, final List<T> dataList)
+    public <T> long setCacheList(final String key, final List<T> dataList, Integer time)
     {
         Long count = redisTemplate.opsForList().rightPushAll(key, dataList);
+        redisTemplate.expire(key,time,TimeUnit.DAYS);
         return count == null ? 0 : count;
     }
 

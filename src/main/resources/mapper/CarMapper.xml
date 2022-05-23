@@ -9,4 +9,16 @@
 			( #{userId}, #{plateNo}, #{plateType}, #{carMileage}, #{createTime}, #{updateTime})
 	</insert>
 
+    <!--根据用户id查找车主全部车辆信息	-->
+	<select id="findAllCarInfoByUserId" resultType="com.yunhua.domain.ChkUserCarInfo">
+        SELECT
+			plate_no,
+			plate_type,
+			car_mileage
+		FROM
+			chk_user_carinfo
+		WHERE
+			user_id = #{userId};
+    </select>
+
 </mapper>

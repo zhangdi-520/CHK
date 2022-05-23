@@ -13,6 +13,13 @@
             mobile = #{mobile};
     </select>
 
+    <select id="findAll" resultType="com.yunhua.domain.User">
+        SELECT
+            *
+        FROM
+            chk_user_info
+    </select>
+
     <!--    注册-->
     <insert id="insertUser" parameterType="com.yunhua.domain.User">
 		INSERT INTO chk_user_info

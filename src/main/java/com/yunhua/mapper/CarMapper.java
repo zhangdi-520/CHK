@@ -2,6 +2,9 @@ package com.yunhua.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yunhua.domain.ChkUserCarInfo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @version V1.0
@@ -13,4 +16,6 @@ import com.yunhua.domain.ChkUserCarInfo;
 public interface CarMapper extends BaseMapper<ChkUserCarInfo> {
 
     void insertCarInfo(ChkUserCarInfo chkUserCarInfo);
+
+    List<ChkUserCarInfo> findAllCarInfoByUserId(@Param("userId") String userId);
 }

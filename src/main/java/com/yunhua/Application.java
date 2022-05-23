@@ -2,6 +2,7 @@ package com.yunhua;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
+import org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -15,8 +16,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @create: 2022-05-07 14:40
  **/
 @EnableAsync
-@SpringBootApplication
-@MapperScan("com.yunhua.mapper")
+@SpringBootApplication(exclude = {SpringBootConfiguration.class})
 @ServletComponentScan
 public class Application {
 

@@ -4,7 +4,7 @@ server:
     context-path: /chk
 spring:
   kafka:
-    bootstrap-servers: 192.168.56.11:9092 # 指定 Kafka Broker 地址，可以设置多个，以逗号分隔
+    bootstrap-servers: 127.0.0.1:9092 # 指定 Kafka Broker 地址，可以设置多个，以逗号分隔
     # Kafka Producer 配置项
     producer:
       acks: 1 # 0-不应答。1-leader 应答。all-所有 leader 和 follower 应答。
@@ -29,16 +29,47 @@ spring:
     host: 127.0.0.1
     database: 0
     port: 6379
-    #mysql配置
-  datasource:
-    url: jdbc:mysql://localhost:3306/chk?characterEncoding=utf-8&serverTimezone=UTC
-    username: root
     password: 802386
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  #mysql配置
+  #数据源切换成读写分离，一主一从
+  datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-mybatis-plus:
-  #配置默认mapper读取路径
-  mapper-locations: classpath*:/mapper/**/*.xml
+    #主机
+    master:
+      username: root
+      password: 802386
+      url: jdbc:mysql://127.0.0.1:3307/chk?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    #从机
+    slave:
+      username: root
+      password: 802386
+      url: jdbc:mysql://127.0.0.1:3308/chk?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    #连接池
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      filters: stat,wall
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+#    url: jdbc:mysql://localhost:3306/chk?characterEncoding=utf-8&serverTimezone=UTC
+#    username: root
+#    password: 802386
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    type: com.alibaba.druid.pool.DruidDataSource
+
+
 
 
 aliyun:
@@ -72,12 +103,24 @@ task:
     threadNamePrefix: "chk-user-" # 设置线程名称前缀
     awaitTerminationSeconds: 60
 
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 logging:
   level:
+    com:
+      baomidou:
+        mybatisplus: DEBUG
     org:
       springframework:
         kafka: ERROR # spring-kafka INFO 日志太多了，所以我们限制只打印 ERROR 级别
       apache:
         kafka: ERROR # kafka INFO 日志太多了，所以我们限制只打印 ERROR 级别
+
+chk:
+  merchant:
+    distant: 5000
 
 

@@ -3,11 +3,18 @@ package com.yunhua.controller;
 //import org.springframework.security.access.annotation.Secured;
 //import org.springframework.security.access.prepost.PostAuthorize;
 
+import com.yunhua.domain.User;
 import com.yunhua.golbalexception.exception.BusinessException;
 import com.yunhua.golbalexception.vo.ResultEnum;
+import com.yunhua.mapper.UserMapper;
+import com.yunhua.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @version V1.0
@@ -19,12 +26,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Controller {
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserService userService;
+
+
 
     @GetMapping("index")
 //    @PreAuthorize("hasAnyAuthority('test')")
     public String index() {
         return "index!!!";
     }
+
 
     @GetMapping("admin")
     public String admin() {

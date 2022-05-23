@@ -2,6 +2,7 @@ package com.yunhua.service;
 
 import com.yunhua.domain.ChkUserCarInfo;
 import com.yunhua.domain.ResponseResult;
+import com.yunhua.domain.requestRo.MerchantInfoRo;
 
 /**
  * @version V1.0
@@ -13,5 +14,7 @@ import com.yunhua.domain.ResponseResult;
 public interface CarService {
 
     ResponseResult addUserCar(String token, ChkUserCarInfo chkUserCarInfo) throws Exception;
+
+    ResponseResult getCar(String token) throws Exception;
 
 }

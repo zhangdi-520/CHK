@@ -51,7 +51,7 @@ public class User implements Serializable {
     /**
     * 性别
     */
-    private Integer sex;
+    private String sex;
     /**
     * 头像图片地址
     */

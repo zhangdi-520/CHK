@@ -2,12 +2,10 @@ package com.yunhua.controller;
 
 import com.yunhua.domain.ChkUserCarInfo;
 import com.yunhua.domain.ResponseResult;
+import com.yunhua.domain.requestRo.MerchantInfoRo;
 import com.yunhua.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @version V1.0
@@ -25,5 +23,11 @@ public class CarController {
     @PostMapping("/usercar/add")
     public ResponseResult addUserCar(@RequestHeader("token") String token, @RequestBody ChkUserCarInfo chkUserCarInfo) throws Exception {
         return carService.addUserCar(token,chkUserCarInfo);
+    }
+
+
+    @GetMapping("/usercar/car")
+    public ResponseResult getCar(@RequestHeader("token")String token) throws Exception {
+        return carService.getCar(token);
     }
 }

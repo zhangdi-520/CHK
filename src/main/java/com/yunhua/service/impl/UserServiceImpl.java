@@ -29,12 +29,18 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RedisCache redisCache;
 
+    /**
+     * 单元测试这个方法无法生效原因，正常启动项目接口测试无问题
+     * @Async 是在单元测试方法执行之后才开始执行的。 这时候单元测试框架单元测试已经完成了。
+     * 所以将连接直接给关闭，直接结束程序的处理。
+     * @param user
+     */
     @Override
     @Async
+    @Transactional
     public void insertUser(User user) {
         //插入DB
         userMapper.insertUser(user);
-        System.out.println("===========================:dajidbabdhua:"+user.toString());
         //用户数据存入缓存
         redisCache.setCacheObject(RedisConstant.USERINFO + user.getMobile(), user, RedisConstant.USERINFOEXOIRE, TimeUnit.DAYS);
     }

@@ -25,11 +25,10 @@ public class ThreadPoolRejectHandler implements RejectedExecutionHandler {
 
 
     /**
-     * 先获取方法信息然后后续根据业务觉得用中间件或者什么方法记录并重新执行
+     * 先获取方法信息然后后续根据业务决定用中间件或者什么方法记录并重新执行
      * @param r
      * @param executor
      */
-
     @Override
     @SneakyThrows
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
