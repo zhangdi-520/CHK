@@ -1,10 +1,10 @@
 package com.yunhua;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 
@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @author: Mr.Zhang
  * @create: 2022-05-07 14:40
  **/
+@EnableCaching
 @EnableAsync
 @SpringBootApplication(exclude = {SpringBootConfiguration.class})
 @ServletComponentScan

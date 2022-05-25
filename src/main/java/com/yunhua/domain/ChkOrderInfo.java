@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @TableName("chk_merchant_info")
 public class ChkOrderInfo {
 
-
+    private Integer id;
 }

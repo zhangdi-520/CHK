@@ -3,6 +3,14 @@ server:
   servlet:
     context-path: /chk
 spring:
+  cache:
+    #使用redis做系统缓存
+    type: redis
+    redis:
+      #设置缓存过期时间
+      time-to-live: 3600000
+      #允许缓存空值，解决缓存穿透问题
+      cache-null-values: true
   kafka:
     bootstrap-servers: 127.0.0.1:9092 # 指定 Kafka Broker 地址，可以设置多个，以逗号分隔
     # Kafka Producer 配置项

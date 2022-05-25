@@ -7,6 +7,7 @@ import com.yunhua.domain.User;
 import com.yunhua.golbalexception.exception.BusinessException;
 import com.yunhua.golbalexception.vo.ResultEnum;
 import com.yunhua.mapper.UserMapper;
+import com.yunhua.order.OrderThreadPoolManager;
 import com.yunhua.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @version V1.0
@@ -32,11 +34,18 @@ public class Controller {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OrderThreadPoolManager orderThreadPoolManager;
+
 
 
     @GetMapping("index")
 //    @PreAuthorize("hasAnyAuthority('test')")
     public String index() {
+        for(int i = 0 ; i<100; i++) {
+            String orderNo = System.currentTimeMillis() + UUID.randomUUID().toString();
+            orderThreadPoolManager.addOrders(orderNo);
+        }
         return "index!!!";
     }
 

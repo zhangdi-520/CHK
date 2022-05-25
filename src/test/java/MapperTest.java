@@ -8,6 +8,7 @@ import com.yunhua.domain.User;
 import com.yunhua.mapper.CarMapper;
 import com.yunhua.mapper.MenuMapper;
 import com.yunhua.mapper.UserMapper;
+import com.yunhua.order.OrderThreadPoolManager;
 import com.yunhua.service.UserService;
 import com.yunhua.service.impl.UserServiceImpl;
 import com.yunhua.sms.service.AliyunSmsSenderService;
@@ -28,6 +29,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
@@ -75,6 +77,9 @@ public class MapperTest {
     @Autowired
     private CarMapper carMapper;
 
+    @Autowired
+    private OrderThreadPoolManager orderThreadPoolManager;
+
 
     @Test
     public void test(){
@@ -108,10 +113,16 @@ public class MapperTest {
 
     @Test
     public void testThreadPool() throws SQLException, NoSuchFieldException {
-//        System.out.println(userService.findUserByMobile("15298376199"));
-        List<User> all = userMapper.findAll();
-        System.out.println(carMapper.findAllCarInfoByUserId("11"));
-        System.out.println(carDao.findAllCarInfoByUserId("11"));
+        System.out.println(userService.findUserByMobile("15298376155"));
+//        List<User> all = userMapper.findAll();
+//        System.out.println(carMapper.findAllCarInfoByUserId("11"));
+//        System.out.println(carDao.findAllCarInfoByUserId("11"));
+
+//        for(int i = 0 ; i<100; i++) {
+//            String orderNo = System.currentTimeMillis() + UUID.randomUUID().toString();
+//            orderThreadPoolManager.addOrders(orderNo);
+//        }
+
 
 
     }

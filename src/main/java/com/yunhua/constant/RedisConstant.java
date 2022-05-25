@@ -12,7 +12,7 @@ public class RedisConstant {
     /**
      * 用户信息
      */
-    public static final String USERINFO = "USER:";
+    public static final String USERINFO = "USER";
 
     /**
      * 用户信息过期时间
