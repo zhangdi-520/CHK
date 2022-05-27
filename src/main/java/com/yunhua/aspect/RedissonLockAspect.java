@@ -2,10 +2,8 @@ package com.yunhua.aspect;
 
 import com.yunhua.annotation.RedissonReadLock;
 import com.yunhua.annotation.RedissonWriteLock;
-import com.yunhua.annotation.SqlReadSlave;
 import com.yunhua.resolver.AnnotationResolver;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shardingsphere.api.hint.HintManager;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -54,18 +52,21 @@ public class RedissonLockAspect {
 
     @Around(value = "@annotation(redissonWriteLock)")
     public Object aroundWrite(ProceedingJoinPoint joinpoint, RedissonWriteLock redissonWriteLock) throws Throwable {
+        AnnotationResolver annotationResolver = AnnotationResolver.newInstance();
+        Object resolver = annotationResolver.resolver(joinpoint, redissonWriteLock.value());
         String value = redissonWriteLock.value();
-        RReadWriteLock readWriteLock = redisson.getReadWriteLock(value);
+        String lockKey = value.split("-")[0]+"-"+resolver;
+        RReadWriteLock readWriteLock = redisson.getReadWriteLock(lockKey);
         RLock rLock = readWriteLock.writeLock();
         Object proceed = null;
         try {
-            log.info("尝试获取写锁{}",value);
+            log.info("尝试获取写锁{}",lockKey);
             boolean b = rLock.tryLock(5, 10, TimeUnit.SECONDS);
             if (b) {
                 proceed = joinpoint.proceed();
             }
         }finally {
-            log.info("写锁{}解锁成功",value);
+            log.info("写锁{}解锁成功",lockKey);
             rLock.unlock();
         }
 
