@@ -1,7 +1,7 @@
 server:
-  port: 10088
+  port: 10089
   servlet:
-    context-path: /chk
+    context-path: /chk-user
 spring:
   cache:
     #使用redis做系统缓存
