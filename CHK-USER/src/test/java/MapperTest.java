@@ -1,7 +1,4 @@
-import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.fastjson.JSON;
-import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
-import com.yunhua.Application;
+import com.yunhua.UserApplication;
 import com.yunhua.config.TaskThreadPoolConfig;
 import com.yunhua.dao.CarDao;
 import com.yunhua.domain.User;
@@ -10,7 +7,6 @@ import com.yunhua.mapper.MenuMapper;
 import com.yunhua.mapper.UserMapper;
 import com.yunhua.order.OrderThreadPoolManager;
 import com.yunhua.service.UserService;
-import com.yunhua.service.impl.UserServiceImpl;
 import com.yunhua.sms.service.AliyunSmsSenderService;
 import com.yunhua.utils.RedisCache;
 import org.junit.jupiter.api.Test;
@@ -19,18 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -41,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @create: 2022-05-09 14:35
  **/
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = UserApplication.class)
 public class MapperTest {
 
     @Autowired

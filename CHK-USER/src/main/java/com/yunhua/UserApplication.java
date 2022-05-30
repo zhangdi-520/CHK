@@ -1,10 +1,11 @@
 package com.yunhua;
 
-import org.springframework.boot.SpringApplication;
 import org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 
@@ -15,13 +16,14 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @author: Mr.Zhang
  * @create: 2022-05-07 14:40
  **/
+@EnableAspectJAutoProxy//开启aspetJ动态代理
 @EnableCaching
 @EnableAsync
 @SpringBootApplication(exclude = {SpringBootConfiguration.class})
 @ServletComponentScan
-public class Application {
+public class UserApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(UserApplication.class, args);
     }
 }
