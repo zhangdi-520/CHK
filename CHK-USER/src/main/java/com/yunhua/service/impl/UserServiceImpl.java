@@ -8,6 +8,7 @@ import com.yunhua.mapper.UserMapper;
 import com.yunhua.service.UserService;
 import com.yunhua.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Async
     @Transactional
+    @CacheEvict
     public void insertUser(User user) {
         //插入DB
         userMapper.insertUser(user);

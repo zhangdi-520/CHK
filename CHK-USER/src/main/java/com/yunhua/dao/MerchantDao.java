@@ -14,6 +14,7 @@ public class MerchantDao {
     @Autowired
     private MerchantMapper merchantMapper;
 
+
     public List<ChkMerchantInfo> getMerchantList(MerchantInfoRo merchantInfoRo){
         List<ChkMerchantInfo> merchantList = merchantMapper.getMerchantList(merchantInfoRo);
         return merchantList;
