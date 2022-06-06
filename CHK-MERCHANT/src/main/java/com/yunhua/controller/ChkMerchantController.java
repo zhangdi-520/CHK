@@ -33,22 +33,29 @@ public class ChkMerchantController {
     }
 
     @DeleteMapping("/delete/{mid}")
-    @ApiOperation("删除商户信息")
+    @ApiOperation("根据商户Id删除商户信息")
     public ResponseResult deleteMerchantInfoByMerchantId(@PathVariable("mid") Long merchantId) throws ExecutionException, InterruptedException {
         return merchantInfoService.deleteMerchantInfoByMerchantId(merchantId);
     }
 
     @PostMapping("/update/{mid}")
-    @ApiOperation("更新商户信息")
+    @ApiOperation("根据商户Id更新商户信息")
     public ResponseResult updateMerchantInfoByMerchantId(@PathVariable("mid") Long merchantId,@RequestBody ChkMerchantInfo merchantInfo) throws ExecutionException, InterruptedException {
         return merchantInfoService.updateMerchantInfoByMerchantId(merchantId,merchantInfo);
     }
 
-    @PostMapping("/get/{mid}")
+    @GetMapping("/get/{mid}")
     @ApiOperation("根据商户Id获取商户信息")
     public ResponseResult getMerchantInfoByMerchantId(@PathVariable("mid") Long merchantId) throws ExecutionException, InterruptedException {
         ChkMerchantInfo merchantInfo = merchantInfoService.getMerchantInfoByMerchantId(merchantId);
+
+        if (merchantInfo == null){
+            return new ResponseResult(ResultEnum.NOTFINDINDATABASE.getCode(), ResultEnum.NOTFINDINDATABASE.getMsg());
+        }
+
         return new ResponseResult(ResultEnum.GETMERCHANTSUCCESS.getCode(), merchantInfo);
     }
+
+
 
 }

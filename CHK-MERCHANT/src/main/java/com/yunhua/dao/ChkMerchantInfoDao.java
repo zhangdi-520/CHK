@@ -8,6 +8,7 @@ import com.yunhua.mapper.ChkMerchantInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -22,6 +23,10 @@ public class ChkMerchantInfoDao {
     }
 
     public int addMerchantInfo(ChkMerchantInfo merchantInfo) {
+        merchantInfo.setCreateTime(new Date());
+        merchantInfo.setUpdateTime(new Date());
+        merchantInfo.setDelFlag(0);
+        merchantInfo.setScore(60);
         int insertStatus = merchantInfoMapper.insert(merchantInfo);
         return insertStatus;
     }
@@ -37,8 +42,12 @@ public class ChkMerchantInfoDao {
 
     public int updateMerchantInfoByMerchantId(Long merchantId, ChkMerchantInfo merchantInfo) {
         ChkMerchantInfo merchantInfoSelected = merchantInfoMapper.selectById(merchantId);
+
+        if (merchantInfoSelected == null){
+            return 0;
+        }
         merchantInfo.setId(merchantId);
-        merchantInfo.setUpdateTime(merchantInfoSelected.getUpdateTime());
+        merchantInfo.setUpdateTime(new Date());
         merchantInfo.setScore(merchantInfoSelected.getScore());
         merchantInfo.setCreateTime(merchantInfoSelected.getCreateTime());
         merchantInfo.setDelFlag(merchantInfoSelected.getDelFlag());

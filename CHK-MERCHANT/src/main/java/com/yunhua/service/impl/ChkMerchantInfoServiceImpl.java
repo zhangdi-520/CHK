@@ -1,5 +1,6 @@
 package com.yunhua.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.yunhua.annotation.RedissonReadLock;
 import com.yunhua.annotation.RedissonWriteLock;
 import com.yunhua.config.BasicConfig;
@@ -11,6 +12,7 @@ import com.yunhua.entity.vo.MerchantInfoSelectConditionVo;
 import com.yunhua.entity.vo.ResponseResult;
 import com.yunhua.golbalexception.exception.BusinessException;
 import com.yunhua.golbalexception.vo.ResultEnum;
+import com.yunhua.mapper.ChkMerchantInfoMapper;
 import com.yunhua.service.ChkMerchantInfoService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.Date;
@@ -41,6 +44,8 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
     @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
+    @Autowired
+    private ChkMerchantInfoMapper merchantInfoMapper;
 
     /**
      *
@@ -92,21 +97,17 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
      * @return
      */
     @Override
-    @CachePut(value = RedisConstant.MERCHANTINFO,key = "#merchantInfo.id")
+    //@CachePut(value = RedisConstant.MERCHANTINFO,key = "#merchantInfo.id")
     //@RedissonReadLock(value = LockConstant.USER+"#mobile")
+    @Transactional(rollbackFor = Exception.class )
     public ResponseResult addMerchantInfo(ChkMerchantInfo merchantInfo) {
-        merchantInfo.setCreateTime(new Date());
-        merchantInfo.setUpdateTime(new Date());
-        merchantInfo.setDelFlag(0);
-        merchantInfo.setScore(60);
+
         int insertStatus = merchantInfoDao.addMerchantInfo(merchantInfo);
         if (insertStatus == 0){
-            //log.error("商家名称是{},id是{}的商户查询失败{}",merchantInfo.getMerchantName(),merchantInfo.getId());
-            throw new BusinessException(ResultEnum.ADDMERCHANTFAIL);
-        }else {
-
-            return new ResponseResult(200,merchantInfo);
+            return new ResponseResult(ResultEnum.ADDDATABASEFAIL.getCode(), ResultEnum.ADDDATABASEFAIL.getMsg());
         }
+        return new ResponseResult(200,merchantInfo);
+
     }
 
     /**
@@ -118,13 +119,13 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
     @Override
     @CacheEvict(value = RedisConstant.MERCHANTINFO,key = "#merchantId")
     @RedissonWriteLock(value = LockConstant.MERCHANT+"#merchantId")
+    @Transactional(rollbackFor = Exception.class )
     public ResponseResult deleteMerchantInfoByMerchantId(Long merchantId) {
         int deleteStatus = merchantInfoDao.deleteMerchantInfoByMerchantId(merchantId);
         if (deleteStatus == 0){
-            throw new BusinessException(ResultEnum.DELETEMERCHANTFAIL);
-        }else {
-            return new ResponseResult(ResultEnum.DELETEMERCHANTSUCCESS.getCode(),null);
+            return new ResponseResult(ResultEnum.NOTFINDINDATABASE.getCode(), ResultEnum.NOTFINDINDATABASE.getMsg());
         }
+        return new ResponseResult(ResultEnum.DELETEMERCHANTSUCCESS.getCode(),null);
     }
 
 
@@ -137,13 +138,21 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
     @Override
     @CacheEvict(value = RedisConstant.MERCHANTINFO,key = "#merchantId")
     @RedissonWriteLock(value = LockConstant.MERCHANT+"#merchantId")
+    @Transactional(rollbackFor = Exception.class )
     public ResponseResult updateMerchantInfoByMerchantId(Long merchantId, ChkMerchantInfo merchantInfo) {
         int updateStatus = merchantInfoDao.updateMerchantInfoByMerchantId(merchantId, merchantInfo);
+
+
+        LambdaUpdateWrapper<ChkMerchantInfo> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(ChkMerchantInfo::getId,merchantId)
+                .set(ChkMerchantInfo::getScore,100);
+        merchantInfoMapper.update(null,wrapper);
+
         if (updateStatus == 0){
-            throw new BusinessException(ResultEnum.UPDATEMERCHANTFAIL);
-        }else {
-            return new ResponseResult(ResultEnum.UPDATEMERCHANTSUCCESS.getCode(), merchantInfo);
+            return new ResponseResult(ResultEnum.NOTFINDINDATABASE.getCode(), ResultEnum.NOTFINDINDATABASE.getMsg());
         }
+        return new ResponseResult(ResultEnum.UPDATEMERCHANTSUCCESS.getCode(), merchantInfo);
+
     }
 
     /**
@@ -153,14 +162,13 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
      */
     @Override
     @RedissonReadLock(value = LockConstant.MERCHANT+"#merchantId")
-    @Cacheable(value = {RedisConstant.MERCHANTINFO} ,key = "#merchantId" ,sync = true)
+    @Cacheable(value = {RedisConstant.MERCHANTINFO} ,key = "#merchantId" ,sync = true )
+
     public ChkMerchantInfo getMerchantInfoByMerchantId(Long merchantId) {
         ChkMerchantInfo merchantInfo = merchantInfoDao.getMerchantInfoByMerchantId(merchantId);
-        if (merchantInfo == null){
-            throw new BusinessException(ResultEnum.GETMERCHANTFAIL);
-        }else {
-            return merchantInfo;
-        }
+
+        return merchantInfo;
+
     }
 
 
