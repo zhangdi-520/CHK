@@ -3,8 +3,6 @@ package com.yunhua.dao;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.yunhua.entity.ChkMerchantEmployee;
-import com.yunhua.golbalexception.exception.BusinessException;
-import com.yunhua.golbalexception.vo.ResultEnum;
 import com.yunhua.mapper.ChkMerchantEmployeeMapper;
 import com.yunhua.mapper.ChkMerchantInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;

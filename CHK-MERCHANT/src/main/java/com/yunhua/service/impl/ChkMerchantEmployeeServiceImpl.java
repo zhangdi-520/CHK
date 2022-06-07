@@ -1,14 +1,13 @@
 package com.yunhua.service.impl;
 
-import com.yunhua.annotation.RedissonReadLock;
-import com.yunhua.annotation.RedissonWriteLock;
+import com.yunhua.annotation.MyRedissonReadLock;
+import com.yunhua.annotation.MyRedissonWriteLock;
 import com.yunhua.constant.LockConstant;
 import com.yunhua.constant.RedisConstant;
 import com.yunhua.dao.ChkMerchantEmployeeDao;
 import com.yunhua.entity.ChkMerchantEmployee;
 import com.yunhua.entity.vo.ResponseResult;
-import com.yunhua.golbalexception.exception.BusinessException;
-import com.yunhua.golbalexception.vo.ResultEnum;
+import com.yunhua.execption.vo.ResultEnum;
 import com.yunhua.mapper.ChkMerchantEmployeeMapper;
 import com.yunhua.service.ChkMerchantEmployeeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -42,7 +41,7 @@ public class ChkMerchantEmployeeServiceImpl extends ServiceImpl<ChkMerchantEmplo
      */
 
     @Override
-    @RedissonReadLock(value = LockConstant.EMPLOYEE+"LISTALLEMPLOYEEINFO")
+    @MyRedissonReadLock(value = LockConstant.EMPLOYEE+"LISTALLEMPLOYEEINFO")
     @Cacheable(value = {RedisConstant.EMPLOYEEINFO+"ALLEMPLOYEE"} ,key = "#merchantId" ,sync = true)
     public List<ChkMerchantEmployee> listAllMerchantEmployeeByMerchantId(Long merchantId) {
         List<ChkMerchantEmployee> employeeList = merchantEmployeeDao.listAllMerchantEmployeeByMerchantId(merchantId);
@@ -56,7 +55,7 @@ public class ChkMerchantEmployeeServiceImpl extends ServiceImpl<ChkMerchantEmplo
      * @return
      */
     @Override
-    @RedissonReadLock(value = LockConstant.EMPLOYEE+"#employeeId")
+    @MyRedissonReadLock(value = LockConstant.EMPLOYEE+"#employeeId")
     @Cacheable(value = {RedisConstant.EMPLOYEEINFO} ,key = "#employeeId" ,sync = true)
     public ChkMerchantEmployee getMerchantEmployeeByEmployeeId(Long employeeId) {
         ChkMerchantEmployee employee = merchantEmployeeDao.selectMerchantEmployeeByEmployeeId(employeeId);
@@ -96,7 +95,7 @@ public class ChkMerchantEmployeeServiceImpl extends ServiceImpl<ChkMerchantEmplo
             }
     )
     @Transactional(rollbackFor = Exception.class )
-    @RedissonWriteLock(value = LockConstant.EMPLOYEE+"#employeeId")
+    @MyRedissonWriteLock(value = LockConstant.EMPLOYEE+"#employeeId")
     public ResponseResult deleteMerchantEmployeeByEmployeeId(Long employeeId,Long merchantId) {
         int deleteStatus = merchantEmployeeDao.deleteMerchantEmployeeByEmployeeId(employeeId);
         if (deleteStatus == 0){
@@ -121,7 +120,7 @@ public class ChkMerchantEmployeeServiceImpl extends ServiceImpl<ChkMerchantEmplo
             }
     )
     @Transactional(rollbackFor = Exception.class )
-    @RedissonWriteLock(value = LockConstant.EMPLOYEE+"#employeeId")
+    @MyRedissonWriteLock(value = LockConstant.EMPLOYEE+"#employeeId")
     public ResponseResult updateMerchantEmployeeByEmployeeId(Long employeeId,Long merchantId,ChkMerchantEmployee employee) {
         int updateStatus = merchantEmployeeDao.updateMerchantEmployeeByEmployeeId(employeeId, employee);
         if (updateStatus == 0){

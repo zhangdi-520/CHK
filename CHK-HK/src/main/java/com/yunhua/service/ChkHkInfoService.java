@@ -3,7 +3,6 @@ package com.yunhua.service;
 import com.yunhua.entity.ChkHkInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yunhua.entity.vo.ResponseResult;
-import com.yunhua.golbalexception.vo.ResultEnum;
 
 import java.util.List;
 

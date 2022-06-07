@@ -1,13 +1,14 @@
 package com.yunhua.service.impl;
 
-import com.yunhua.annotation.RedissonReadLock;
-import com.yunhua.annotation.RedissonWriteLock;
+import com.yunhua.annotation.MyRedissonReadLock;
+import com.yunhua.annotation.MyRedissonWriteLock;
+import com.yunhua.annotation.ReadOnly;
 import com.yunhua.constant.LockConstant;
 import com.yunhua.constant.RedisConstant;
 import com.yunhua.dao.ChkHkInfoDao;
 import com.yunhua.entity.ChkHkInfo;
 import com.yunhua.entity.vo.ResponseResult;
-import com.yunhua.golbalexception.vo.ResultEnum;
+import com.yunhua.execption.vo.ResultEnum;
 import com.yunhua.mapper.ChkHkInfoMapper;
 import com.yunhua.service.ChkHkInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -35,16 +36,18 @@ public class ChkHkInfoServiceImpl extends ServiceImpl<ChkHkInfoMapper, ChkHkInfo
     private ChkHkInfoDao chkHkInfoDao;
 
     @Override
-    @RedissonReadLock(value = LockConstant.HK + "ALLHKINFO")
+    @MyRedissonReadLock(value = LockConstant.HK + "ALLHKINFO")
     @Cacheable(value = {RedisConstant.HKINFO} ,key = "'ALLHKINFO'", sync = true)
+    @ReadOnly
     public List<ChkHkInfo> listAllHkInfo() {
         List<ChkHkInfo> hkInfoList = chkHkInfoDao.listAllHkInfo();
         return hkInfoList;
     }
 
     @Override
-    @RedissonReadLock(value = LockConstant.HK + "#hkId")
+    @MyRedissonReadLock(value = LockConstant.HK + "#hkId")
     @Cacheable(value = {RedisConstant.HKINFO}, key = "#hkId", sync = true)
+    @ReadOnly
     public ChkHkInfo getHkInfoByHkId(Long hkId) {
         ChkHkInfo hkInfoByHkId = chkHkInfoDao.getHkInfoByHkId(hkId);
         return hkInfoByHkId;
@@ -84,7 +87,7 @@ public class ChkHkInfoServiceImpl extends ServiceImpl<ChkHkInfoMapper, ChkHkInfo
                     @CacheEvict(value = {RedisConstant.HKINFO},key = "'ALLHKINFO'")
             }
     )
-    @RedissonWriteLock(value = LockConstant.HK+"#hkId")
+    @MyRedissonWriteLock(value = LockConstant.HK+"#hkId")
     @Transactional(rollbackFor = Exception.class )
     public ResponseResult deleteHkInfoByHkId(Long hkId) {
         int deleteStatus = chkHkInfoDao.deleteHkInfoByHkId(hkId);
@@ -109,7 +112,7 @@ public class ChkHkInfoServiceImpl extends ServiceImpl<ChkHkInfoMapper, ChkHkInfo
                     @CacheEvict(value = {RedisConstant.HKINFO},key = "'ALLHKINFO'")
             }
     )
-    @RedissonWriteLock(value = LockConstant.HK+"#hkId")
+    @MyRedissonWriteLock(value = LockConstant.HK+"#hkId")
     @Transactional(rollbackFor = Exception.class )
     public ResponseResult updateHkInfoByHkId(Long hkId, ChkHkInfo hkInfo) {
         int updateStatus = chkHkInfoDao.updateHkInfoByHkId(hkId, hkInfo);

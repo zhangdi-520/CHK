@@ -1,7 +1,7 @@
 package com.yunhua.aspect;
 
-import com.yunhua.annotation.RedissonReadLock;
-import com.yunhua.annotation.RedissonWriteLock;
+import com.yunhua.annotation.MyRedissonReadLock;
+import com.yunhua.annotation.MyRedissonWriteLock;
 import com.yunhua.resolver.AnnotationResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,7 +27,7 @@ public class RedissonLockAspect {
     private Redisson redisson;
 
     @Around(value = "@annotation(redissonReadLock)")
-    public Object aroundRead(ProceedingJoinPoint joinpoint, RedissonReadLock redissonReadLock) throws Throwable {
+    public Object aroundRead(ProceedingJoinPoint joinpoint, MyRedissonReadLock redissonReadLock) throws Throwable {
         AnnotationResolver annotationResolver = AnnotationResolver.newInstance();
         Object resolver = annotationResolver.resolver(joinpoint, redissonReadLock.value());
         String value = redissonReadLock.value();
@@ -51,7 +51,7 @@ public class RedissonLockAspect {
 
 
     @Around(value = "@annotation(redissonWriteLock)")
-    public Object aroundWrite(ProceedingJoinPoint joinpoint, RedissonWriteLock redissonWriteLock) throws Throwable {
+    public Object aroundWrite(ProceedingJoinPoint joinpoint, MyRedissonWriteLock redissonWriteLock) throws Throwable {
         AnnotationResolver annotationResolver = AnnotationResolver.newInstance();
         Object resolver = annotationResolver.resolver(joinpoint, redissonWriteLock.value());
         String value = redissonWriteLock.value();

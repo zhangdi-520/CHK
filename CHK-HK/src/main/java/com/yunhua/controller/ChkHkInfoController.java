@@ -3,7 +3,7 @@ package com.yunhua.controller;
 
 import com.yunhua.entity.ChkHkInfo;
 import com.yunhua.entity.vo.ResponseResult;
-import com.yunhua.golbalexception.vo.ResultEnum;
+import com.yunhua.execption.vo.ResultEnum;
 import com.yunhua.service.ChkHkInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -49,4 +49,40 @@ public class RedisConstant {
      */
     public static final Integer CARINFOEXPIRE = 5;
 
+    /**
+     * 商家信息缓存
+     */
+
+    public static final String MERCHANTINFO = "MERCHANT:INFO:";
+
+    /**
+     * 商家信息缓存过期时间（天）
+     */
+    public static final Integer MERCHANTINFOEXPIRE = 5;
+
+
+    /**
+     * 员工信息缓存
+     */
+
+    public static final String EMPLOYEEINFO = "EMPLOYEE:INFO:";
+
+    /**
+     * 商家信息缓存过期时间（天）
+     */
+    public static final Integer EMPLOYEEINFOEXPIRE = 5;
+
+
+    /**
+     * 管家信息缓存
+     */
+
+    public static final String HKINFO = "HK:INFO:";
+
+    /**
+     * 管家信息缓存过期时间（天）
+     */
+    public static final Integer HKINFOEXPIRE = 5;
+
+
 }

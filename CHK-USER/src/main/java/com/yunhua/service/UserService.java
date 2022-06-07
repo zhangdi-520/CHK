@@ -1,7 +1,5 @@
 package com.yunhua.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.yunhua.domain.ResponseResult;
 import com.yunhua.domain.User;
 
 import java.util.List;

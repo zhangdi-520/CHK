@@ -1,8 +1,8 @@
 package com.yunhua.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.yunhua.annotation.RedissonReadLock;
-import com.yunhua.annotation.RedissonWriteLock;
+import com.yunhua.annotation.MyRedissonReadLock;
+import com.yunhua.annotation.MyRedissonWriteLock;
 import com.yunhua.config.BasicConfig;
 import com.yunhua.constant.LockConstant;
 import com.yunhua.constant.RedisConstant;
@@ -10,22 +10,20 @@ import com.yunhua.dao.ChkMerchantInfoDao;
 import com.yunhua.entity.ChkMerchantInfo;
 import com.yunhua.entity.vo.MerchantInfoSelectConditionVo;
 import com.yunhua.entity.vo.ResponseResult;
-import com.yunhua.golbalexception.exception.BusinessException;
-import com.yunhua.golbalexception.vo.ResultEnum;
+import com.yunhua.execption.BusinessException;
+import com.yunhua.execption.vo.ResultEnum;
 import com.yunhua.mapper.ChkMerchantInfoMapper;
 import com.yunhua.service.ChkMerchantInfoService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -58,7 +56,7 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
      */
 
     @Override
-    @RedissonReadLock(value = LockConstant.MERCHANT+"listAllMerchantInfo")
+    @MyRedissonReadLock(value = LockConstant.MERCHANT+"listAllMerchantInfo")
     public ResponseResult listAllMerchantInfoBySelectCondition(MerchantInfoSelectConditionVo merchantInfoRo) throws ExecutionException, InterruptedException {
         if (merchantInfoRo.getLatitude() == null || merchantInfoRo.getLongitude() == null){
             throw new BusinessException(ResultEnum.PARAMCHECHFAIL);
@@ -118,7 +116,7 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
 
     @Override
     @CacheEvict(value = RedisConstant.MERCHANTINFO,key = "#merchantId")
-    @RedissonWriteLock(value = LockConstant.MERCHANT+"#merchantId")
+    @MyRedissonWriteLock(value = LockConstant.MERCHANT+"#merchantId")
     @Transactional(rollbackFor = Exception.class )
     public ResponseResult deleteMerchantInfoByMerchantId(Long merchantId) {
         int deleteStatus = merchantInfoDao.deleteMerchantInfoByMerchantId(merchantId);
@@ -137,7 +135,7 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
      */
     @Override
     @CacheEvict(value = RedisConstant.MERCHANTINFO,key = "#merchantId")
-    @RedissonWriteLock(value = LockConstant.MERCHANT+"#merchantId")
+    @MyRedissonWriteLock(value = LockConstant.MERCHANT+"#merchantId")
     @Transactional(rollbackFor = Exception.class )
     public ResponseResult updateMerchantInfoByMerchantId(Long merchantId, ChkMerchantInfo merchantInfo) {
         int updateStatus = merchantInfoDao.updateMerchantInfoByMerchantId(merchantId, merchantInfo);
@@ -161,9 +159,8 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
      * @return
      */
     @Override
-    @RedissonReadLock(value = LockConstant.MERCHANT+"#merchantId")
+    @MyRedissonReadLock(value = LockConstant.MERCHANT+"#merchantId")
     @Cacheable(value = {RedisConstant.MERCHANTINFO} ,key = "#merchantId" ,sync = true )
-
     public ChkMerchantInfo getMerchantInfoByMerchantId(Long merchantId) {
         ChkMerchantInfo merchantInfo = merchantInfoDao.getMerchantInfoByMerchantId(merchantId);
 

@@ -14,7 +14,7 @@ public class RedissonConfig {
     @Bean
     public Redisson redisson(){
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://192.168.229.3:6379").setDatabase(0);
+        config.useSingleServer().setAddress("redis://127.0.0.1:6379").setDatabase(0).setPassword("802386");
         //更改看门狗的默认过期时间
         config.setLockWatchdogTimeout(10000L);
         return (Redisson)Redisson.create(config);

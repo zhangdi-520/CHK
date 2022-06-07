@@ -1,6 +1,7 @@
 package com.yunhua.config;
 
 import lombok.extern.slf4j.Slf4j;
+import com.yunhua.constant.DBTypeEnum;
 
 //线程级别的数据源设置
 @Slf4j
