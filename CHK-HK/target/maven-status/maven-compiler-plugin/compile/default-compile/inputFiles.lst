@@ -2,7 +2,6 @@
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/config/ChkMybatisAutoConfiguration.java
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/config/SwaggerConfig.java
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/entity/vo/ResponseResult.java
-/Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/golbalexception/vo/ResultEnum.java
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/config/SpringCacheConfig.java
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/config/RedisConfig.java
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/golbalexception/handler/GlobalDefultExceptionHandler.java
@@ -14,7 +13,6 @@
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/entity/ChkHkInfo.java
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/config/CorsConfig.java
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/mapper/generator/AutoCode.java
-/Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/golbalexception/exception/BusinessException.java
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/config/RedissonConfig.java
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/dao/ChkHkInfoDao.java
 /Users/zhangdi/IdeaProjects/CHK/CHK-HK/src/main/java/com/yunhua/resolver/AnnotationResolver.java

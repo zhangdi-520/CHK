@@ -1,7 +1,7 @@
 package com.yunhua.config;
 
-import com.sun.istack.internal.Nullable;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+import org.springframework.lang.Nullable;
 
 public class MyRoutingDataSource extends AbstractRoutingDataSource {
 
