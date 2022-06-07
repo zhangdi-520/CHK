@@ -10,6 +10,7 @@
         <module name="CHK-COMMON" />
         <module name="CHK-LOG" />
         <module name="CHK-HK" />
+        <module name="CHK-USER" />
         <module name="CHK-MERCHANT" />
         <module name="CHK-ORDER" />
         <module name="CHK-USER" />
