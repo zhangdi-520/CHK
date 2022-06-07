@@ -3,6 +3,7 @@
 <mapper namespace="com.yunhua.mapper.UserMapper">
     <select id="findUserByMobile" resultType="com.yunhua.domain.User">
         SELECT
+            id,
             mobile,
             del_flag,
             pwd,

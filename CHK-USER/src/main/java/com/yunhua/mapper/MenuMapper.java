@@ -1,7 +1,9 @@
 package com.yunhua.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.yunhua.security.domain.Menu;
+import com.yunhua.domain.Menu;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,6 +14,7 @@ import java.util.List;
  * @author: Mr.Zhang
  * @create: 2022-05-09 14:27
  **/
+@Repository
 public interface MenuMapper extends BaseMapper<Menu> {
 
     List<String> selectPermsByUserId(Long userId);

@@ -1,0 +1,12 @@
+server:
+  port: 10089
+  servlet:
+    context-path: /chk-merchant
+spring:
+  cloud:
+    #配置nacos注册中心
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: chk-merchant

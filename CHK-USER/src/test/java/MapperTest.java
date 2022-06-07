@@ -9,13 +9,14 @@ import com.yunhua.order.OrderThreadPoolManager;
 import com.yunhua.service.UserService;
 import com.yunhua.sms.service.AliyunSmsSenderService;
 import com.yunhua.utils.RedisCache;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.SQLException;
@@ -38,8 +39,8 @@ public class MapperTest {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private AliyunSmsSenderService aliyunSmsSenderServiceImpl;
@@ -76,32 +77,23 @@ public class MapperTest {
 
     @Test
     public void sendSms(){
+        userService.findUserByMobile("15298376155");
 
-//        Map<String, String> map = new HashMap<>();
-//        map.put("code", "123456");
-//        SendSmsResponse sendSmsResponse = aliyunSmsSenderServiceImpl.sendSms("15298376155",
-//                JSON.toJSONString(map),
-//                "SMS_154950909");
-//        System.out.println(JSON.toJSONString(sendSmsResponse));
-
-//        redisCache.setCacheObject("SMS:15298376155","123456",60, TimeUnit.SECONDS);
-
-//        System.out.println(userMapper.findUserByMobile("15298376155"));
-//        for (int i = 0; i<=11;i++) {
         // 获取配置的数据源
         User user = new User();
-        user.setNickName("车管家_1234");
-        user.setPwd(passwordEncoder.encode("15298371234"));
-        user.setMobile("15298371234");
+        user.setNickName("车管家_9999");
+        user.setPwd("aaaaa");
+        user.setMobile("15298376155");
         user.setDelFlag(0);
         userService.insertUser(user);
 //        }
+        userService.findUserByMobile("15298376155");
 
     }
 
     @Test
     public void testThreadPool() throws SQLException, NoSuchFieldException {
-        System.out.println(userService.findUserByMobile("15298376155"));
+        System.out.println(userService.findUserByMobile("15298379999"));
 //        List<User> all = userMapper.findAll();
 //        System.out.println(carMapper.findAllCarInfoByUserId("11"));
 //        System.out.println(carDao.findAllCarInfoByUserId("11"));

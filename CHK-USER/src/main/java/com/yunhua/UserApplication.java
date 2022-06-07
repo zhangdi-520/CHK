@@ -1,10 +1,11 @@
 package com.yunhua;
 
-import org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableAsync;
 
@@ -19,8 +20,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAspectJAutoProxy//开启aspetJ动态代理
 @EnableCaching
 @EnableAsync
-@SpringBootApplication(exclude = {SpringBootConfiguration.class})
+@SpringBootApplication
 @ServletComponentScan
+@EnableDiscoveryClient
+@MapperScan(basePackages = "com.yunhua.mapper")
 public class UserApplication {
 
     public static void main(String[] args) {

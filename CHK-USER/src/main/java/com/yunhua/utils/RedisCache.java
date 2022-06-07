@@ -108,8 +108,11 @@ public class RedisCache
      */
     public <T> long setCacheList(final String key, final List<T> dataList, Integer time)
     {
-        Long count = redisTemplate.opsForList().rightPushAll(key, dataList);
-        redisTemplate.expire(key,time,TimeUnit.DAYS);
+        Long count ;
+        synchronized (this) {
+            count = redisTemplate.opsForList().rightPushAll(key, dataList);
+            redisTemplate.expire(key, time, TimeUnit.DAYS);
+        }
         return count == null ? 0 : count;
     }
 

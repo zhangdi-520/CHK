@@ -1,7 +1,7 @@
 package com.yunhua.golbalexception.handler;
 
 import com.yunhua.domain.ResponseResult;
-import com.yunhua.golbalexception.exception.BusinessException;
+import com.yunhua.execption.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

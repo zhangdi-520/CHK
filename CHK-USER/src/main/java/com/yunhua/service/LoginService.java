@@ -1,7 +1,7 @@
 package com.yunhua.service;
 
 import com.yunhua.domain.ResponseResult;
-import com.yunhua.domain.requestRo.UserLoginRo;
+import com.yunhua.domain.User;
 
 /**
  * @version V1.0
@@ -12,7 +12,7 @@ import com.yunhua.domain.requestRo.UserLoginRo;
  **/
 public interface LoginService {
 
-    ResponseResult login(UserLoginRo user);
+    ResponseResult login(User user);
 
-    ResponseResult loginOut();
+
 }

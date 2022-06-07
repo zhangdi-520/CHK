@@ -7,22 +7,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="CHK-ORDER" />
         <module name="CHK-HK" />
+        <module name="CHK-AUTH" />
         <module name="CHK-USER" />
-        <module name="CHK-COMMON" />
         <module name="CHK-MERCHANT" />
+        <module name="CHK-ORDER" />
+        <module name="CHK-COMMON" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="CHK" options="-parameters" />
-      <module name="CHK-COMMON" options="-parameters" />
-      <module name="CHK-HK" options="-parameters" />
-      <module name="CHK-MERCHANT" options="-parameters" />
-      <module name="CHK-ORDER" options="-parameters" />
-      <module name="CHK-USER" options="-parameters" />
+      <module name="CHK" options="" />
+      <module name="CHK-AUTH" options="" />
+      <module name="CHK-COMMON" options="" />
+      <module name="CHK-HK" options="" />
+      <module name="CHK-MERCHANT" options="" />
+      <module name="CHK-ORDER" options="" />
+      <module name="CHK-USER" options="" />
     </option>
   </component>
 </project>

@@ -1,8 +1,15 @@
 server:
   port: 10086
   servlet:
-    context-path: /chk
+    context-path: /chk-user
 spring:
+  cloud:
+    #配置nacos注册中心
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: chk-user
   cache:
     #使用redis做系统缓存
     type: redis
@@ -46,13 +53,13 @@ spring:
     master:
       username: root
       password: 802386
-      url: jdbc:mysql://127.0.0.1:3307/chk?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
+      jdbcUrl: jdbc:mysql://127.0.0.1:3307/chk?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
       driver-class-name: com.mysql.cj.jdbc.Driver
     #从机
     slave:
       username: root
       password: 802386
-      url: jdbc:mysql://127.0.0.1:3308/chk?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
+      jdbcUrl: jdbc:mysql://127.0.0.1:3308/chk?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
       driver-class-name: com.mysql.cj.jdbc.Driver
     #连接池
     druid:

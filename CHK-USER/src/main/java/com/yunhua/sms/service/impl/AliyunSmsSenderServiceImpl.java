@@ -112,9 +112,12 @@ public class AliyunSmsSenderServiceImpl implements AliyunSmsSenderService {
         String smsCode;
         smsCode = redisCache.getCacheObject(RedisConstant.SMS + mobile);
         if (StringUtils.hasText(smsCode)){
-            return new ResponseResult(103,"短信接口繁忙，请稍后重试");
+            long l = Long.parseLong(smsCode.split("_")[1]);
+            if (System.currentTimeMillis()-l < 60000) {
+                return new ResponseResult(103, "短信接口繁忙，请稍后重试");
+            }
         }
-        smsCode = CommonUtil.randomCode();
+        smsCode = CommonUtil.randomCode()+"_"+System.currentTimeMillis();
         Map<String, String> map = new HashMap<>();
         map.put("code", smsCode);
         SendSmsResponse sendSmsResponse = sendSms(mobile,
@@ -124,8 +127,8 @@ public class AliyunSmsSenderServiceImpl implements AliyunSmsSenderService {
             return new ResponseResult(101,"发送短信失败");
         }
         log.info("=======================>向手机号{}发送验证{}成功",mobile,smsCode);
-        //发送短信成功向redis中缓存一份数据
-        redisCache.setCacheObject(RedisConstant.SMS+ mobile,smsCode,RedisConstant.SMSEXPIRE, TimeUnit.SECONDS);
+        //发送短信成功向redis中缓存一份数据(十分钟)
+        redisCache.setCacheObject(RedisConstant.SMS+ mobile,smsCode,RedisConstant.SMSEXPIRE, TimeUnit.MINUTES);
 
         return new ResponseResult(200,"发送短信成功");
     }

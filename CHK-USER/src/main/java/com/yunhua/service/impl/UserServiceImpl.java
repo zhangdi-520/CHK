@@ -1,17 +1,21 @@
 package com.yunhua.service.impl;
 
-import com.yunhua.annotation.RedissonReadLock;
+import com.yunhua.annotation.MyRedissonReadLock;
+import com.yunhua.annotation.ReadOnly;
 import com.yunhua.constant.LockConstant;
 import com.yunhua.constant.RedisConstant;
 import com.yunhua.domain.User;
+import com.yunhua.mapper.MenuMapper;
 import com.yunhua.mapper.UserMapper;
 import com.yunhua.service.UserService;
-import com.yunhua.utils.RedisCache;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @version V1.0
@@ -21,13 +25,16 @@ import org.springframework.transaction.annotation.Transactional;
  * @create: 2022-05-10 13:48
  **/
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
 
+
     @Autowired
-    private RedisCache redisCache;
+    private MenuMapper menuMapper;
+
 
     /**
      * 单元测试这个方法无法生效原因，正常启动项目接口测试无问题
@@ -37,11 +44,13 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     @Override
-    @Async
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {RedisConstant.USERINFO},key = "#user.mobile" )
     public void insertUser(User user) {
+        System.out.println("执行插入操作");
         //插入DB
         userMapper.insertUser(user);
+
     }
 
     /**
@@ -49,12 +58,27 @@ public class UserServiceImpl implements UserService {
      * @param mobile
      * @return
      */
-    @RedissonReadLock(value = LockConstant.USER+"#mobile")
+    @MyRedissonReadLock(value = LockConstant.USER+"#mobile")
     @Cacheable(value = {RedisConstant.USERINFO},key = "#root.args[0]",sync = true)
     @Override
+    @ReadOnly
     public User findUserByMobile(String mobile) {
         User  user = userMapper.findUserByMobile(mobile);
+        log.info("通过手机号{}查寻到的用户{}",mobile,user);
         return user;
+    }
+
+
+    @Override
+    @ReadOnly
+    public User selectOne(String mobile) {
+        return userMapper.findUserByMobile(mobile);
+    }
+
+    @Override
+    @ReadOnly
+    public List<String> selectPermsByUserId(Long userId) {
+        return menuMapper.selectPermsByUserId(userId);
     }
 
 
