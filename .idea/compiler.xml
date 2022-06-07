@@ -9,11 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="CHK-ORDER" />
         <module name="CHK-HK" />
-        <module name="CHK-USER" />
         <module name="CHK-COMMON" />
+        <module name="CHK-USER" />
         <module name="CHK-MERCHANT" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="CHK-AUTH" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
