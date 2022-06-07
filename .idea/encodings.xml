@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/../../../maven/LocalRepository/org/springframework/boot/spring-boot-starter-parent/2.5.0/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CHK-COMMON/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CHK-HK/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/CHK-LOG/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CHK-MERCHANT/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CHK-ORDER/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CHK-USER/src/main/java" charset="UTF-8" />

@@ -7,11 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="CHK-ORDER" />
-        <module name="CHK-HK" />
-        <module name="CHK-USER" />
         <module name="CHK-COMMON" />
+        <module name="CHK-LOG" />
+        <module name="CHK-HK" />
         <module name="CHK-MERCHANT" />
+        <module name="CHK-ORDER" />
+        <module name="CHK-USER" />
       </profile>
     </annotationProcessing>
   </component>
@@ -20,6 +21,7 @@
       <module name="CHK" options="-parameters" />
       <module name="CHK-COMMON" options="-parameters" />
       <module name="CHK-HK" options="-parameters" />
+      <module name="CHK-LOG" options="-parameters" />
       <module name="CHK-MERCHANT" options="-parameters" />
       <module name="CHK-ORDER" options="-parameters" />
       <module name="CHK-USER" options="-parameters" />

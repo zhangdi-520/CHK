@@ -14,6 +14,7 @@
         <module>CHK-ORDER</module>
         <module>CHK-COMMON</module>
         <module>CHK-HK</module>
+        <module>CHK-LOG</module>
     </modules>
 
     <parent>

@@ -1,6 +1,7 @@
 package com.yunhua.controller;
 
 
+import com.yunhua.annotation.WebLogAnnotation;
 import com.yunhua.entity.ChkHkInfo;
 import com.yunhua.entity.vo.ResponseResult;
 import com.yunhua.golbalexception.vo.ResultEnum;
@@ -42,6 +43,7 @@ public class ChkHkInfoController {
 
     }
 
+    @WebLogAnnotation(module = "CHK-HK",operator = "getHkInfoByHkId")
     @GetMapping("/get/{hkId}")
     @ApiOperation("根据管家Id查询管家信息")
     public ResponseResult getHkInfoByHkId(@PathVariable("hkId") Long hkId){

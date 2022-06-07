@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 分布式锁的简单陪配置，后期可能会做成集群模式
+ * 分布式锁的简单配置，后期可能会做成集群模式
  */
 @Configuration
 public class RedissonConfig {
