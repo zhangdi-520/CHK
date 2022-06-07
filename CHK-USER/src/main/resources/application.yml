@@ -1,5 +1,5 @@
 server:
-  port: 10086
+  port: 10089
   servlet:
     context-path: /chk-user
 spring:

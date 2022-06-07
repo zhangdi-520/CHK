@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService {
         System.out.println("执行插入操作");
         //插入DB
         userMapper.insertUser(user);
-
     }
 
     /**

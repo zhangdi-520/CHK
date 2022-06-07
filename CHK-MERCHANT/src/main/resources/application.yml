@@ -1,12 +1,143 @@
 server:
-  port: 10089
+  port: 10090
   servlet:
     context-path: /chk-merchant
+
+
 spring:
   cloud:
     #配置nacos注册中心
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
-  application:
-    name: chk-merchant
+    application:
+      name: chk-merchant
+  cache:
+    #使用redis做系统缓存
+    type: redis
+    redis:
+      #设置缓存过期时间
+      time-to-live: 3600000
+      #允许缓存空值，解决缓存穿透问题
+      cache-null-values: true
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092 # 指定 Kafka Broker 地址，可以设置多个，以逗号分隔
+    # Kafka Producer 配置项
+    producer:
+      acks: 1 # 0-不应答。1-leader 应答。all-所有 leader 和 follower 应答。
+      retries: 3 # 发送失败时，重试发送的次数
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer # 消息的 key 的序列化
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer # 消息的 value 的序列化
+    # Kafka Consumer 配置项
+    consumer:
+      auto-offset-reset: earliest # 设置消费者分组最初的消费进度为 earliest 。可参考博客 https://blog.csdn.net/lishuangzhe7047/article/details/74530417 理解
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.yunhua.kafka.message
+    # Kafka Consumer Listener 监听器配置
+    listener:
+      missing-topics-fatal: false # 消费监听接口监听的主题不存在时，默认会报错。所以通过设置为 false ，解决报错
+  #redis配置
+  redis:
+    host: 192.168.229.3
+    database: 0
+    port: 6379
+
+  #mysql配置
+  #数据源切换成读写分离，一主一从
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #主机
+    master:
+      username: root
+      password: admin123456
+      url: jdbc:mysql://192.168.229.3:3307/yunhua-chk?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    #从机
+    slave:
+      username: root
+      password: admin123456
+      url: jdbc:mysql://192.168.229.3:3308/yunhua-chk?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    #连接池
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      filters: stat,wall
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+#    url: jdbc:mysql://localhost:3306/chk?characterEncoding=utf-8&serverTimezone=UTC
+#    username: root
+#    password: 802386
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    type: com.alibaba.druid.pool.DruidDataSource
+
+
+
+
+aliyun:
+  #阿里云短信模板配置
+  sms:
+    #阿里云 accessKeyId（安全信息管理下面）
+    accessKeyId: LTAI5tDTLb3Y6cj2XbDGi5LZ
+    #阿里云 accessKeySecret（安全信息管理下面）
+    accessKeySecret: i3oX7X0IBCiC7n1HhPAzyqkEX5EUfM
+    #产品名称:云通信短信API产品,开发者无需替换
+    product: Dysmsapi
+    #产品域名,开发者无需替换
+    domain: dysmsapi.aliyuncs.com
+    regionId: cn-hangzhou
+    #短信签名名称（国内/国际/港澳台消息-签名管理下面）
+    signName: 阿里云短信测试
+    #发送日期 支持30天内记录查询，格式yyyyMMdd
+    dateFormat: yyyyMMdd
+    #服务结点
+    endpointName: cn-hangzhou
+    #模板编码
+    templateCode: SMS_154950909
+
+# 线程池配置参数
+task:
+  pool:
+    corePoolSize: 10 # 设置核心线程数
+    maxPoolSize: 20  # 设置最大线程数
+    keepAliveTime: 300 # 设置空闲线程存活时间（秒）
+    queueCapacity: 100 # 设置队列容量
+    threadNamePrefix: "chk-user-" # 设置线程名称前缀
+    awaitTerminationSeconds: 60
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  level:
+    com:
+      baomidou:
+        mybatisplus: DEBUG
+    org:
+      springframework:
+        kafka: ERROR # spring-kafka INFO 日志太多了，所以我们限制只打印 ERROR 级别
+      apache:
+        kafka: ERROR # kafka INFO 日志太多了，所以我们限制只打印 ERROR 级别
+
+chk:
+  merchant:
+    distant: 5000
+
+
