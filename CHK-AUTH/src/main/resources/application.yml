@@ -15,6 +15,3 @@ spring:
     database: 0
     port: 6379
     password: 802386
-chk:
-  merchant:
-    distant: 5000

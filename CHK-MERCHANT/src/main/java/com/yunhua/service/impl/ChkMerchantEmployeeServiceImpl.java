@@ -5,12 +5,15 @@ import com.yunhua.annotation.MyRedissonWriteLock;
 import com.yunhua.constant.LockConstant;
 import com.yunhua.constant.RedisConstant;
 import com.yunhua.dao.ChkMerchantEmployeeDao;
+import com.yunhua.domain.User;
 import com.yunhua.entity.ChkMerchantEmployee;
 import com.yunhua.entity.vo.ResponseResult;
 import com.yunhua.execption.vo.ResultEnum;
+import com.yunhua.feign.UserFeignService;
 import com.yunhua.mapper.ChkMerchantEmployeeMapper;
 import com.yunhua.service.ChkMerchantEmployeeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,6 +36,9 @@ public class ChkMerchantEmployeeServiceImpl extends ServiceImpl<ChkMerchantEmplo
 
     @Autowired
     private ChkMerchantEmployeeDao merchantEmployeeDao;
+
+    @Autowired
+    private UserFeignService userFeignService;
 
     /**
      * 根据商户Id查询这个商户下的所有员工

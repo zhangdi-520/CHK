@@ -20,7 +20,7 @@ import java.util.Objects;
 /**
  * token校验
  */
-@Component
+//@Component
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -47,6 +47,8 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (Objects.isNull(cacheObject)){
             throw new BusinessException(ResultEnum.LOFINERROR);
         }
+        //刷新用户过期时间
+
         //校验通过，放行
         filterChain.doFilter(request,response);
     }

@@ -1,10 +1,13 @@
 package com.yunhua.dao;
 
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.yunhua.entity.ChkMerchantEmployee;
 import com.yunhua.mapper.ChkMerchantEmployeeMapper;
 import com.yunhua.mapper.ChkMerchantInfoMapper;
+import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -60,6 +63,7 @@ public class ChkMerchantEmployeeDao {
     }
 
     public int deleteMerchantEmployeeByEmployeeId(Long employeeId){
+        TableInfoHelper.initTableInfo(new MapperBuilderAssistant(new MybatisConfiguration(), ""), ChkMerchantEmployee.class);
         LambdaUpdateWrapper<ChkMerchantEmployee> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(ChkMerchantEmployee::getId,employeeId)
                 .eq(ChkMerchantEmployee::getDelFlag,0)

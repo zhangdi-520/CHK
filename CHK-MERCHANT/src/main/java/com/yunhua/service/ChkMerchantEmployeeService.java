@@ -18,8 +18,12 @@ import java.util.List;
 public interface ChkMerchantEmployeeService extends IService<ChkMerchantEmployee> {
 
     List<ChkMerchantEmployee> listAllMerchantEmployeeByMerchantId(Long merchantId);
+
     ChkMerchantEmployee getMerchantEmployeeByEmployeeId(Long employeeId);
+
     ResponseResult addMerchantEmployee(ChkMerchantEmployee employee);
+
     ResponseResult deleteMerchantEmployeeByEmployeeId(Long employeeId,Long merchantId);
+
     ResponseResult updateMerchantEmployeeByEmployeeId(Long employeeId,Long merchantId,ChkMerchantEmployee employee);
 }

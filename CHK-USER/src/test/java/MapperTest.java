@@ -77,7 +77,6 @@ public class MapperTest {
 
     @Test
     public void sendSms(){
-        userService.findUserByMobile("15298376155");
 
         // 获取配置的数据源
         User user = new User();
@@ -86,8 +85,6 @@ public class MapperTest {
         user.setMobile("15298376155");
         user.setDelFlag(0);
         userService.insertUser(user);
-//        }
-        userService.findUserByMobile("15298376155");
 
     }
 

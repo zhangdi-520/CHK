@@ -2,6 +2,7 @@ package com.yunhua.config;
 
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
+import io.seata.rm.datasource.DataSourceProxy;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -14,7 +15,7 @@ import javax.sql.DataSource;
 import java.util.*;
 
 /**
- * 读写分离自动配置类
+ * 读写分离自动配置类,注入seata数据源，启用分布式事务
  */
 @Configuration
 @EnableConfigurationProperties(MybatisPlusProperties.class)
@@ -37,8 +38,8 @@ public class ChkMybatisAutoConfiguration {
     public DataSource myRoutingDataSource(@Qualifier("masterDataSource") DataSource masterDataSource,
                                           @Qualifier("slaveDataSource") DataSource slaveDataSource){
         Map<Object,Object> targetDataSource = new HashMap<>();
-        targetDataSource.put(DBTypeEnum.MASTER,masterDataSource);
-        targetDataSource.put(DBTypeEnum.SLAVE,slaveDataSource);
+        targetDataSource.put(DBTypeEnum.MASTER,new DataSourceProxy(masterDataSource));
+        targetDataSource.put(DBTypeEnum.SLAVE,new DataSourceProxy(slaveDataSource));
         MyRoutingDataSource myRoutingDataSource = new MyRoutingDataSource();
         myRoutingDataSource.setDefaultTargetDataSource(masterDataSource);
         myRoutingDataSource.setTargetDataSources(targetDataSource);

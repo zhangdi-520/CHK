@@ -83,6 +83,7 @@ public class WebLogAspect {
         Method method = methodSignature.getMethod();
         long endTime = System.currentTimeMillis();
         webLog.setDescription("系统日志");
+
         webLog.setUsername("车管家用户");
         webLog.setIp(request.getRemoteUser());
         webLog.setMethod(request.getMethod());
