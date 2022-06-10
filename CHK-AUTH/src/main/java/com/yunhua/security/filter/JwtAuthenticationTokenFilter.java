@@ -1,5 +1,6 @@
 package com.yunhua.security.filter;
 
+import com.yunhua.constant.RedisConstant;
 import com.yunhua.security.domain.LoginUser;
 import com.yunhua.util.RedisCache;
 import com.yunhua.utils.JwtUtil;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @version V1.0
@@ -33,6 +36,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        //白名单放行
+        Set<String> whiteUrl = redisCache.getCacheSet(RedisConstant.WHITEURl);
+        if (whiteUrl.contains(request.getRequestURI())){
+            filterChain.doFilter(request,response);
+            return;
+        }
         //获取token
         String token = request.getHeader("token");
         if (!StringUtils.hasText(token)){
@@ -57,6 +66,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             request.setAttribute("errorMsg","用户未登录");
             throw new RuntimeException("用户未登录");
         }
+        //用户登陆了，重置过期时间
+        redisCache.expire(redisKey,RedisConstant.LOFININFOEXPIRE, TimeUnit.SECONDS);
         //用户信息存入SecurityContextHolder，后续filter主要校验holder中的用户信息
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);

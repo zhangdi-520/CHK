@@ -84,5 +84,10 @@ public class RedisConstant {
      */
     public static final Integer HKINFOEXPIRE = 5;
 
+    /**
+     * 访问白名单
+     */
+    public static final String WHITEURl="WHITE:URL";
+
 
 }

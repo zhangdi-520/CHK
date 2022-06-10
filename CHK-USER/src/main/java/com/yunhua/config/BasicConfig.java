@@ -12,4 +12,8 @@ public class BasicConfig {
     private String chkMerchantDistant;
 
 
+    @Value("${chk.open.url}")
+    private String openUrl;
+
+
 }
