@@ -24,11 +24,6 @@
             <version>8.0.15</version>
         </dependency>
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.2.5</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
             <version>9.0.43</version>
@@ -46,10 +41,6 @@
             <version>1.1.0</version>
         </dependency>
         <!--阿里云的短信服务SDK end-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
         <!-- 引入 Spring-Kafka 依赖 -->
         <!-- 已经内置 kafka-clients 依赖，所以无需重复引入 -->
         <dependency>

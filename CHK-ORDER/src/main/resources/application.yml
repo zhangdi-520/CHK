@@ -1,0 +1,75 @@
+server:
+  port: 10090
+  servlet:
+    context-path: /chk-order
+spring:
+  cloud:
+    #配置nacos注册中心
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: chk-order
+  redis:
+    host: 127.0.0.1
+    database: 0
+    port: 6379
+    password: 802386
+  #mysql配置
+  #数据源切换成读写分离，一主一从
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #主机
+    master:
+      username: root
+      password: 802386
+      url: jdbc:mysql://127.0.0.1:3307/chk?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+    #从机
+    slave:
+      username: root
+      password: 802386
+      url: jdbc:mysql://127.0.0.1:3308/chk?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT&useSSL=false&allowPublicKeyRetrieval=true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      type: com.alibaba.druid.pool.DruidDataSource
+    #连接池
+    druid:
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      filters: stat,wall
+      maxPoolPreparedStatementPerConnectionSize: 20
+      useGlobalDataSourceStat: true
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092 # 指定 Kafka Broker 地址，可以设置多个，以逗号分隔
+    # Kafka Producer 配置项
+    producer:
+      acks: 1 # 0-不应答。1-leader 应答。all-所有 leader 和 follower 应答。
+      retries: 3 # 发送失败时，重试发送的次数
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer # 消息的 key 的序列化
+      #value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer # 消息的 value 的序列化
+      value-deserializer: org.apache.kafka.common.serialization.StringSerializer
+    # Kafka Consumer 配置项
+    consumer:
+      auto-offset-reset: earliest # 设置消费者分组最初的消费进度为 earliest 。可参考博客 https://blog.csdn.net/lishuangzhe7047/article/details/74530417 理解
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.yunhua.domin
+    # Kafka Consumer Listener 监听器配置
+    listener:
+      missing-topics-fatal: false # 消费监听接口监听的主题不存在时，默认会报错。所以通过设置为 false ，解决报错
