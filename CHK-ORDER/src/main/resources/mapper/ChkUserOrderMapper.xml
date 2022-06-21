@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunhua.mapper.ChkUserOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yunhua.entity.ChkUserOrder">
+        <id column="id" property="id" />
+        <result column="car_id" property="carId" />
+        <result column="order_no" property="orderNo" />
+        <result column="service_id" property="serviceId" />
+        <result column="merchant_id" property="merchantId" />
+        <result column="merchant_employee_id" property="merchantEmployeeId" />
+        <result column="message" property="message" />
+        <result column="picture_url" property="pictureUrl" />
+        <result column="car_info_picture_url" property="carInfoPictureUrl" />
+        <result column="service_url" property="serviceUrl" />
+        <result column="get_car_type" property="getCarType" />
+        <result column="get_car_address" property="getCarAddress" />
+        <result column="get_car_time" property="getCarTime" />
+        <result column="back_car_address" property="backCarAddress" />
+        <result column="back_car_time" property="backCarTime" />
+        <result column="amount" property="amount" />
+        <result column="order_state" property="orderState" />
+        <result column="other_service_id" property="otherServiceId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="creator_id" property="creatorId" />
+    </resultMap>
+
+    <select id="listOrderByMerchantList" resultMap="BaseResultMap">
+        select
+            id,
+            car_id,
+            order_no,
+            service_id,
+            merchant_id,
+            merchant_employee_id,
+            message,
+            picture_url,
+            car_info_picture_url,
+            service_url,
+            get_car_type,
+            get_car_address,
+            get_car_time,
+            back_car_address,
+            back_car_time,
+            amount,
+            order_state,
+            other_service_id,
+            create_time,
+            update_time,
+            creator_id
+        from chk_user_order
+        where merchant_id in
+        <foreach collection="merchantList" item="merchant" separator="," open="(" close=")">
+            #{merchant.id}
+        </foreach>
+        and order_state in
+        <foreach collection="orderStatusList" item="orderStatus" separator="," open="(" close=")">
+            #{orderStatus}
+        </foreach>
+    </select>
+
+    <select id="listOrderByMerchantId" resultMap="BaseResultMap">
+        select
+            id,
+            car_id,
+            order_no,
+            service_id,
+            merchant_id,
+            merchant_employee_id,
+            message,
+            picture_url,
+            car_info_picture_url,
+            service_url,
+            get_car_type,
+            get_car_address,
+            get_car_time,
+            back_car_address,
+            back_car_time,
+            amount,
+            order_state,
+            other_service_id,
+            create_time,
+            update_time,
+            creator_id
+        from chk_user_order
+        where merchant_id = #{merchantId}
+        and order_state in
+        <foreach collection="orderStatusList" item="orderStatus" separator="," open="(" close=")">
+            #{orderStatus}
+        </foreach>
+    </select>
+</mapper>

@@ -73,4 +73,9 @@ public class User implements Serializable {
     */
     private Date updateTime;
 
+    /**
+     * 用户中心的唯一标识userId
+     */
+    private String userId;
+
 }

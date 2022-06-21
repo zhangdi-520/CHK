@@ -3,6 +3,8 @@ package com.yunhua.kafka.message;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @version V1.0
  * @program: CHK
@@ -12,18 +14,23 @@ import lombok.Data;
  **/
 @Data
 @TableName("chk_web_log")
-public class WebLog {
+public class WebLog implements Serializable {
 
+
+    private static final long serialVersionUID = 100312021321312L;
+
+    private String id;
 
     /**
      * 操作描述
      */
     private String description;
 
+
     /**
-     * 操作用户
+     * 用户Id
      */
-    private String username;
+    private Long userId;
 
     /**
      * 操作时间

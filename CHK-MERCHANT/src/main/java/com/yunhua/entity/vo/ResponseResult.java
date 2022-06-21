@@ -1,6 +1,7 @@
 package com.yunhua.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -8,6 +9,7 @@ import java.io.Serializable;
  * @Author
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@NoArgsConstructor
 public class ResponseResult<T> implements Serializable {
     /**
      * 序列化ID

@@ -24,7 +24,9 @@ public enum ResultEnum {
 	GETEMPLOYEEFAIL(108,"获取一个员工信息失败"),
 	GETEMPLOYEESUCCESS(200,"获取一个员工信息成功"),
 	NOTFINDINDATABASE(109,"数据库中不存在该数据"),
-	ADDDATABASEFAIL(110,"添加数据库失败")
+	UPLOADFAIL(110,"上传云服务器失败"),
+	ADDDATABASEFAIL(111,"添加数据库失败"),
+	DELETEFILEFAIL(112,"删除文件失败")
 	;
 	
 	private Integer code;

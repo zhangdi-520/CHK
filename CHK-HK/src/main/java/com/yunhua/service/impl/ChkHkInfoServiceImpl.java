@@ -91,6 +91,7 @@ public class ChkHkInfoServiceImpl extends ServiceImpl<ChkHkInfoMapper, ChkHkInfo
     @Transactional(rollbackFor = Exception.class )
     public ResponseResult deleteHkInfoByHkId(Long hkId) {
         int deleteStatus = chkHkInfoDao.deleteHkInfoByHkId(hkId);
+
         if (deleteStatus == 0){
             return new ResponseResult(ResultEnum.NOTFINDINDATABASE.getCode(), ResultEnum.NOTFINDINDATABASE.getMsg());
         }

@@ -1,7 +1,7 @@
 package com.yunhua.kafka.consumer;
 
-import com.yunhua.kafka.constant.KafkaConstant;
-import com.yunhua.kafka.message.WebLog;
+import com.yunhua.constant.KafkaConstant;
+import com.yunhua.domain.WebLog;
 import com.yunhua.mapper.WebLogMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +30,6 @@ public class WebLogConsumer {
         if (Objects.isNull(webLog)){
             return;
         }
-        webLogMapper.insertWebLog(webLog);
+//        webLogMapper.insertWebLog(webLog);
     }
 }

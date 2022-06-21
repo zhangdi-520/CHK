@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
  * @since 2022-05-31
  */
 @RestController
-@RequestMapping("/merchantEmployee")
+@RequestMapping("/employee")
 @Api(value = "商家的员工信息接口",tags = "商家员工信息")
 public class ChkMerchantEmployeeController {
 
@@ -54,20 +54,20 @@ public class ChkMerchantEmployeeController {
     }
 
     @PostMapping("/add")
-    @ApiOperation("添加用户信息")
+    @ApiOperation("添加员工信息")
     public ResponseResult addMerchantEmployee(@RequestBody ChkMerchantEmployee employee) throws ExecutionException, InterruptedException {
         return merchantEmployeeService.addMerchantEmployee(employee);
     }
 
     @DeleteMapping("/delete/{eid}/{mid}")
-    @ApiOperation("根据用户Id删除用户信息")
+    @ApiOperation("根据员工Id删除员工信息")
     public ResponseResult deleteMerchantEmployeeByEmployeeId(@PathVariable("eid") Long employeeId, @PathVariable("mid") Long merchantId) throws ExecutionException, InterruptedException {
         return merchantEmployeeService.deleteMerchantEmployeeByEmployeeId(employeeId,merchantId);
     }
 
 
     @PostMapping("/update/{eid}/{mid}")
-    @ApiOperation("根据用户Id更新用户信息")
+    @ApiOperation("根据员工Id更新员工信息")
     public ResponseResult updateMerchantEmployeeByEmployeeId(@PathVariable("eid") Long employeeId,@PathVariable("mid") Long merchantId, @RequestBody ChkMerchantEmployee employee) throws ExecutionException, InterruptedException {
         return merchantEmployeeService.updateMerchantEmployeeByEmployeeId(employeeId,merchantId,employee);
     }

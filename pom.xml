@@ -15,6 +15,8 @@
         <module>CHK-COMMON</module>
         <module>CHK-HK</module>
         <module>CHK-AUTH</module>
+        <module>CHK-LOG</module>
+        <module>CHK-FILE</module>
     </modules>
 
     <properties>

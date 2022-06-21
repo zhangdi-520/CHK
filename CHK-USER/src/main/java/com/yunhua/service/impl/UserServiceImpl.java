@@ -1,9 +1,11 @@
 package com.yunhua.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.yunhua.annotation.MyRedissonReadLock;
 import com.yunhua.annotation.ReadOnly;
 import com.yunhua.constant.LockConstant;
 import com.yunhua.constant.RedisConstant;
+import com.yunhua.dao.UserDao;
 import com.yunhua.domain.User;
 import com.yunhua.mapper.MenuMapper;
 import com.yunhua.mapper.UserMapper;
@@ -31,6 +33,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private MenuMapper menuMapper;
@@ -50,6 +54,15 @@ public class UserServiceImpl implements UserService {
         System.out.println("执行插入操作");
         //插入DB
         userMapper.insertUser(user);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = {RedisConstant.USERINFO},key = "#user.mobile" )
+    public int addUser(User user) {
+        int insertStatus = userDao.addUser(user);
+
+        return insertStatus;
     }
 
     /**
@@ -78,6 +91,20 @@ public class UserServiceImpl implements UserService {
     @ReadOnly
     public List<String> selectPermsByUserId(Long userId) {
         return menuMapper.selectPermsByUserId(userId);
+    }
+
+
+    /**
+     * 从用户中心查询用户
+     * @param user
+     * @return
+     */
+
+    @Override
+    @ReadOnly
+    public User selectUserByMobileInDataCenter(User user) {
+        User userCenter = userDao.selectUserByMobileInDataCenter(user);
+        return userCenter;
     }
 
 

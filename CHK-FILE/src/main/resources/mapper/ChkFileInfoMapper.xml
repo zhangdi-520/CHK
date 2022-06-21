@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunhua.mapper.ChkFileInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yunhua.entity.ChkFileInfo">
+        <id column="id" property="id" />
+        <result column="merchant_id" property="merchantId" />
+        <result column="hk_id" property="hkId" />
+        <result column="employee_id" property="employeeId" />
+        <result column="file_url" property="fileUrl" />
+    </resultMap>
+
+    <select id="listFileNamesByFileIdArr" resultType="String">
+        select file_name
+        from chk_file_info
+        where id in
+        <foreach collection="fileIdArr" item="fileId" separator="," open="(" close=")">
+            #{fileId}
+        </foreach>
+        and del_flag = 0
+    </select>
+
+</mapper>

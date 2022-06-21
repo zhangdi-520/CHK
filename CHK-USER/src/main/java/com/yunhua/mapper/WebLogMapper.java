@@ -1,7 +1,8 @@
 package com.yunhua.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.yunhua.kafka.message.WebLog;
+import com.yunhua.domain.WebLog;
+import org.springframework.stereotype.Repository;
 
 /**
  * @version V1.0
@@ -10,6 +11,7 @@ import com.yunhua.kafka.message.WebLog;
  * @author: Mr.Zhang
  * @create: 2022-05-11 16:34
  **/
+@Repository
 public interface WebLogMapper extends BaseMapper<WebLog> {
 
     void insertWebLog(WebLog webLog);

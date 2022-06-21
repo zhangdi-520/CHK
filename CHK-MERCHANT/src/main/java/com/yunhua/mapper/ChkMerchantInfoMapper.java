@@ -21,7 +21,10 @@ public interface ChkMerchantInfoMapper extends BaseMapper<ChkMerchantInfo> {
 
     @Select("<script>" +
             "SELECT\n" +
-            "        id, merchant_name, address, score, " +
+            "id, merchant_name,pwd,merchant_picture_url,qualification_certificate,business_license,license, " +
+            "environment_url,bank,bank_amount,bank_card_no,service_id,address,mobile,name, " +
+            "card_no,work_time,score,del_flag,create_time, " +
+            "update_time,creator_id,latitude,longitude, "+
             "        ROUND(\n" +
             "        6371.393 * acos(\n" +
             "        cos(radians(#{latitude,jdbcType=DECIMAL})) * cos(radians(latitude)) * cos(\n" +

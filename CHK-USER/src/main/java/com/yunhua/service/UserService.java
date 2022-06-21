@@ -15,9 +15,12 @@ public interface UserService {
 
     void insertUser(User user);
 
+    int addUser(User user);
+
     User findUserByMobile(String mobile);
 
     User selectOne(String mobile);
 
     List<String> selectPermsByUserId(Long userId);
+    User selectUserByMobileInDataCenter(User user);
 }

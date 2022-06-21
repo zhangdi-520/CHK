@@ -62,7 +62,7 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
             throw new BusinessException(ResultEnum.PARAMCHECHFAIL);
         }
         log.info("判断距离是否为空，为商家设置默认距离");
-        if (merchantInfoRo.getRadius() == null){
+        if (merchantInfoRo.getRadius() == null || "".equals(merchantInfoRo.getRadius())){
             merchantInfoRo.setRadius(basicConfig.getChkMerchantDistant());
         }
         //异步编排任务
@@ -140,11 +140,6 @@ public class ChkMerchantInfoServiceImpl implements ChkMerchantInfoService {
     public ResponseResult updateMerchantInfoByMerchantId(Long merchantId, ChkMerchantInfo merchantInfo) {
         int updateStatus = merchantInfoDao.updateMerchantInfoByMerchantId(merchantId, merchantInfo);
 
-
-        LambdaUpdateWrapper<ChkMerchantInfo> wrapper = new LambdaUpdateWrapper<>();
-        wrapper.eq(ChkMerchantInfo::getId,merchantId)
-                .set(ChkMerchantInfo::getScore,100);
-        merchantInfoMapper.update(null,wrapper);
 
         if (updateStatus == 0){
             return new ResponseResult(ResultEnum.NOTFINDINDATABASE.getCode(), ResultEnum.NOTFINDINDATABASE.getMsg());
