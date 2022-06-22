@@ -7,6 +7,8 @@ import com.yunhua.execption.vo.ResultEnum;
 import com.yunhua.mapper.ChkFileInfoMapper;
 import com.yunhua.service.ChkFileInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yunhua.utils.AesEncryptUtils;
+import com.yunhua.utils.MD5Utils;
 import com.yunhua.utils.QiniuUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,17 +42,24 @@ public class ChkFileInfoServiceImpl extends ServiceImpl<ChkFileInfoMapper, ChkFi
      */
 
     @Override
-    public ResponseResult uploadFile(MultipartFile file, ChkFileInfo fileInfo) {
+    public ResponseResult uploadFile(MultipartFile file, ChkFileInfo fileInfo) throws Exception {
 
         String originalFilename = file.getOriginalFilename();
         String fileName = UUID.randomUUID().toString()+"."+ StringUtils.substringAfterLast(originalFilename,".");
-        fileInfo.setFileUrl(qiniuUtils.url + fileName);
-        fileInfo.setFileName(fileName);
+
+        String fileNameEncode = AesEncryptUtils.encrypt(fileName);
+        String fileUrlEncode = AesEncryptUtils.encrypt(qiniuUtils.url + fileNameEncode);
+
+        //        String fileNameMd5 = MD5Utils.md5(fileName);
+//        String fileUrlMd5 = MD5Utils.md5(qiniuUtils.url + fileNameMd5);
+        fileInfo.setFileUrl(fileUrlEncode);
+
+        fileInfo.setFileName(fileNameEncode);
         boolean upload = qiniuUtils.upload(file, fileName);
         if (upload){
             int insertStatus = fileInfoDao.insertFile(fileInfo);
             if (insertStatus != 0){
-                return new ResponseResult(200,qiniuUtils.url + fileName);
+                return new ResponseResult(200,fileUrlEncode);
             }else {
                 return new ResponseResult(ResultEnum.ADDDATABASEFAIL.getCode(), ResultEnum.ADDDATABASEFAIL.getMsg());
             }
@@ -65,11 +74,12 @@ public class ChkFileInfoServiceImpl extends ServiceImpl<ChkFileInfoMapper, ChkFi
      * @return
      */
     @Override
-    public ResponseResult deleteFile(Long fileId) {
+    public ResponseResult deleteFile(Long fileId) throws Exception {
         ChkFileInfo fileInfo = fileInfoDao.selectFileByFileId(fileId);
         if (fileInfo != null){
             int deleteStatus = fileInfoDao.deleteFileInfoByFileId(fileId);
-            boolean deleteStatusInQiNiu = qiniuUtils.delete(fileInfo.getFileName());
+            String fileName = AesEncryptUtils.decrypt(fileInfo.getFileName());
+            boolean deleteStatusInQiNiu = qiniuUtils.delete(fileName);
             if (deleteStatusInQiNiu == true && deleteStatus > 0){
                 return new ResponseResult(200,null);
             }
@@ -96,8 +106,12 @@ public class ChkFileInfoServiceImpl extends ServiceImpl<ChkFileInfoMapper, ChkFi
 
 
     @Override
-    public ResponseResult deleteBatchFiles(Long[] fileIdArr) {
-        String[] fileNameArr = fileInfoDao.listFileNamesByFileIdArr(fileIdArr);
+    public ResponseResult deleteBatchFiles(Long[] fileIdArr) throws Exception {
+        String[] fileNameEncodeArr = fileInfoDao.listFileNamesByFileIdArr(fileIdArr);
+        String[] fileNameArr = new String[fileNameEncodeArr.length];
+        for (int i = 0 ; i < fileNameEncodeArr.length ; i ++){
+            fileNameArr[i] = AesEncryptUtils.decrypt(fileNameEncodeArr[i]);
+        }
         if (fileNameArr.length > 0){
             int deleteBatchStatus = fileInfoDao.deleteBatchFileInfo(fileIdArr);
             boolean deleteBatchInQiNiu = qiniuUtils.deleteBatch(fileNameArr);

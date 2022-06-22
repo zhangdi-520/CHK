@@ -13,7 +13,7 @@
 
     <select id="listFileNamesByFileIdArr" resultType="String">
         select file_name
-        from chk_file_info
+        from csw_file_info
         where id in
         <foreach collection="fileIdArr" item="fileId" separator="," open="(" close=")">
             #{fileId}

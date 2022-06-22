@@ -14,8 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
  * @since 2022-06-17
  */
 public interface ChkFileInfoService extends IService<ChkFileInfo> {
-    public ResponseResult uploadFile(MultipartFile file, ChkFileInfo fileInfo);
-    public ResponseResult deleteFile(Long fileId);
+    public ResponseResult uploadFile(MultipartFile file, ChkFileInfo fileInfo) throws Exception;
+    public ResponseResult deleteFile(Long fileId) throws Exception;
     public ResponseResult getFile(Long fileId);
-    public ResponseResult deleteBatchFiles(Long[] fileIdArr);
+    public ResponseResult deleteBatchFiles(Long[] fileIdArr) throws Exception;
 }

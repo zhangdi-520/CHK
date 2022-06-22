@@ -36,14 +36,14 @@ public class ChkFileInfoController {
 
     @PostMapping("/upload")
     @ApiOperation("上传文件信息")
-    public ResponseResult upload(@RequestBody MultipartFile file, ChkFileInfo fileInfo){
+    public ResponseResult upload(@RequestBody MultipartFile file, ChkFileInfo fileInfo) throws Exception {
         return fileInfoService.uploadFile(file, fileInfo);
     }
 
 
     @DeleteMapping("/delete/{fid}")
     @ApiOperation("删除文件信息")
-    public ResponseResult delete(@PathVariable("fid") Long fileId){
+    public ResponseResult delete(@PathVariable("fid") Long fileId) throws Exception {
         return fileInfoService.deleteFile(fileId);
     }
 
@@ -56,7 +56,7 @@ public class ChkFileInfoController {
 
     @DeleteMapping("delete")
     @ApiOperation("根据文件Id批量删除文件信息")
-    public ResponseResult deleteBatch(Long[] fileIdArr){
+    public ResponseResult deleteBatch(Long[] fileIdArr) throws Exception {
         return fileInfoService.deleteBatchFiles(fileIdArr);
     }
 
